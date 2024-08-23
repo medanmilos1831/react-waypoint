@@ -1,14 +1,87 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import styles from './app.module.scss';
+import { Waypoint } from 'src/ReactWaypoint';
 
-import NxWelcome from './nx-welcome';
-
-export function App() {
+const SomeComponent = () => {
   return (
-    <div>
-      <NxWelcome title="react-waypoint" />
+    <div
+      style={{
+        background: 'yellow',
+        width: '100%',
+        height: '5rem',
+        textAlign: 'center',
+      }}
+    >
+      <Waypoint.Item
+        onEnter={({ item, entry }) => {
+          console.log('onEnter', item.querySelector('.milos'));
+        }}
+        onLeave={({ item, entry }) => {
+          console.log('onLeave');
+        }}
+      >
+        <span className="milos">SomeComponent</span>
+      </Waypoint.Item>
     </div>
   );
-}
+};
+const App = () => {
+  return (
+    <Waypoint>
+      <>
+        <div
+          style={{
+            height: '80rem',
+            background: 'red',
+          }}
+        ></div>
+        <div
+          style={{
+            height: '50rem',
+            background: 'blue',
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          <SomeComponent />
+        </div>
+        <div
+          style={{
+            height: '50rem',
+            background: 'blue',
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          <SomeComponent />
+        </div>
+        <div
+          style={{
+            height: '50rem',
+            background: 'blue',
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          <SomeComponent />
+        </div>
+        <div
+          style={{
+            height: '50rem',
+            background: 'blue',
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          <SomeComponent />
+        </div>
+        <div
+          style={{
+            height: '50rem',
+            background: 'green',
+          }}
+        ></div>
+      </>
+    </Waypoint>
+  );
+};
 
-export default App;
+export { App };
