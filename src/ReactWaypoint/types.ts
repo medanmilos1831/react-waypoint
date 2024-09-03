@@ -1,5 +1,3 @@
-import { WaypointRegistry } from './WaypointRegistry';
-
 export interface IReactWaypointContext {
   observer: IntersectionObserver;
   registries: {

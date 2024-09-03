@@ -1,23 +1,12 @@
 import { PropsWithChildren, useContext, useEffect, useId, useRef } from 'react';
 import { ReactWaypointContext } from './ReactWaypointContext';
-import { WaypointRegistry } from './WaypointRegistry';
 import { IntersectionObserverService } from './IntersectionObserverService';
 import { IWaypoint } from './types';
 
 const Waypoint = ({ children }: PropsWithChildren) => {
-  let registries = new WaypointRegistry();
-  const { callbacks, options } = new IntersectionObserverService();
   return (
-    <ReactWaypointContext.Provider
-      value={{
-        observer: new IntersectionObserver(
-          callbacks.bind(registries)(),
-          options
-        ),
-        registries,
-      }}
-    >
-      {children}
+    <ReactWaypointContext.Provider value={new IntersectionObserverService()}>
+      <>{children}</>
     </ReactWaypointContext.Provider>
   );
 };
@@ -33,11 +22,11 @@ Waypoint.Item = ({
   const ctx = useContext(ReactWaypointContext)!;
   useEffect(() => {
     if (itemRef.current) {
-      ctx.observer.observe(itemRef.current);
-      ctx.registries.setRegistry(id, { onEnter, onLeave });
+      ctx.intersection.observe(itemRef.current);
+      ctx.setRegistry(id, { onEnter, onLeave });
     }
     return () => {
-      ctx.observer.unobserve(itemRef.current!);
+      ctx.intersection.unobserve(itemRef.current!);
     };
   }, []);
 

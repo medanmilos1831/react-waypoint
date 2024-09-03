@@ -1,27 +1,38 @@
-import { WaypointRegistry } from './WaypointRegistry';
-
 class IntersectionObserverService {
-  callbacks(this: WaypointRegistry) {
-    let self = this;
-    return function (entries: IntersectionObserverEntry[]) {
-      entries.forEach((entry: any) => {
-        if (entry.isIntersecting) {
-          self.getRegistry(entry.target.dataset.id).onEnter({
-            item: entry.target,
-            entry,
-          });
-        } else {
-          self.getRegistry(entry.target.dataset!.id!).onLeave({
-            item: entry.target,
-            entry,
-          });
-        }
-      });
+  registry: { [key: string]: any } = {};
+  setRegistry = (id: string, obj: any) => {
+    this.registry = {
+      ...this.registry,
+      [`${id}`]: obj,
     };
-  }
-  options = {
-    threshold: 1,
   };
+  getRegistry = (id: string) => {
+    return this.registry[id];
+  };
+  intersection = (() => {
+    let self = this;
+    return new IntersectionObserver(
+      function (entries: IntersectionObserverEntry[]) {
+        entries.forEach((entry: any) => {
+          if (entry.isIntersecting) {
+            self.getRegistry(entry.target.dataset.id).onEnter({
+              item: entry.target,
+              entry,
+            });
+          }
+          if (!entry.isIntersecting) {
+            self.getRegistry(entry.target.dataset.id).onLeave({
+              item: entry.target,
+              entry,
+            });
+          }
+        });
+      },
+      {
+        threshold: 1,
+      }
+    );
+  })();
 }
 
 export { IntersectionObserverService };

@@ -1,86 +1,90 @@
+import { useEffect } from 'react';
 import { Waypoint } from 'src/ReactWaypoint';
 
-const SomeComponent = () => {
+const App = () => {
   return (
     <div
       style={{
-        background: 'yellow',
-        width: '100%',
-        height: '5rem',
-        textAlign: 'center',
+        position: 'relative',
       }}
     >
-      <Waypoint.Item
-        onEnter={({ item, entry }) => {
-          console.log('onEnter', item.querySelector('.milos'));
-        }}
-        onLeave={({ item, entry }) => {
-          console.log('onLeave');
-        }}
-      >
-        <span className="milos">SomeComponent</span>
-      </Waypoint.Item>
+      <Waypoint>
+        <div
+          className="page"
+          style={{
+            position: 'relative',
+            display: 'flex',
+            overflow: 'scroll',
+            justifyContent: 'end',
+          }}
+        >
+          <div
+            style={{
+              width: '30%',
+              position: 'fixed',
+              left: 0,
+              top: 0,
+              height: '100vh',
+              background: 'green',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+            >
+              {new Array(20).fill(null).map((item, index) => {
+                return (
+                  <div
+                    key={index}
+                    style={{
+                      background: 'blue',
+                      width: '100%',
+                      marginBottom: '1rem',
+                    }}
+                  >
+                    <span>{index}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div
+            style={{
+              width: '70%',
+            }}
+          >
+            <>
+              {new Array(20).fill(null).map((item, index) => {
+                return (
+                  <Waypoint.Item
+                    onEnter={(obj) => {
+                      console.log('onEnter', obj);
+                    }}
+                    onLeave={(obj) => {
+                      console.log('onLeave', obj);
+                    }}
+                    key={index}
+                  >
+                    <div
+                      style={{
+                        background: 'red',
+                        width: '100%',
+                        height: '15rem',
+                        marginBottom: '1rem',
+                      }}
+                    >
+                      <span>{index}</span>
+                    </div>
+                  </Waypoint.Item>
+                );
+              })}
+            </>
+          </div>
+        </div>
+      </Waypoint>
     </div>
-  );
-};
-const App = () => {
-  return (
-    <Waypoint>
-      <>
-        <div
-          style={{
-            height: '80rem',
-            background: 'red',
-          }}
-        ></div>
-        <div
-          style={{
-            height: '50rem',
-            background: 'blue',
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          <SomeComponent />
-        </div>
-        <div
-          style={{
-            height: '50rem',
-            background: 'blue',
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          <SomeComponent />
-        </div>
-        <div
-          style={{
-            height: '50rem',
-            background: 'blue',
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          <SomeComponent />
-        </div>
-        <div
-          style={{
-            height: '50rem',
-            background: 'blue',
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          <SomeComponent />
-        </div>
-        <div
-          style={{
-            height: '50rem',
-            background: 'green',
-          }}
-        ></div>
-      </>
-    </Waypoint>
   );
 };
 
